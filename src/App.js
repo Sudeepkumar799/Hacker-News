@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Route, Switch, withRouter} from 'react-router-dom';
+import NavigationBar from './components/NavigationBar/NavigationBar';
+import Posts from './pages/posts/Posts';
+import PostDetailed from './pages/post_detailed/PostDetailed';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./App.css"
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <NavigationBar/>
+        <div className="main-content">
+          <Switch>
+            <Route
+                path="/"
+                exact
+                component={Posts}
+            />
+            <Route
+                path="/post=:postId"
+                component={PostDetailed}
+            />
+          </Switch>
+        </div>
+      </div>
   );
-}
+};
 
-export default App;
+export default withRouter(App);
