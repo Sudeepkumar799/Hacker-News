@@ -1,16 +1,41 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import Col from 'react-bootstrap/Col';
+import {hideStory, voteStory} from '../../redux/actions/stories';
+import likeIcon from '../../assets/images/like.png';
+import hideIcon from '../../assets/images/blind.png';
 import './StoryCard.css';
 
-export const StoryCard = (props) => {
-  const {title, author, url, num_comments, points} = props.data;
+const StoryCardPre = (props) => {
+  const {data: {title, author, url, num_comments}, points, index, hideStory, voteStory} = props;
+
   return (
       <Col xs={12}>
         <div className="story-card">
           <div className={'story-card-left'}>
-            <p className="story-title">{title === null ? 'Sample Title' : title}</p>
-            <p className="story-author">{author === null ? 'Hacker News' : author}</p>
+            <p className="story-title">{title === null ?
+                'Sample Title' :
+                title}</p>
+            <p className="story-author">{author === null ?
+                'Hacker News' :
+                author}</p>
             <p className="story-url">{url === null ? 'Hacker News' : url}</p>
+            <div className="story-icons-block">
+              <img
+                  src={hideIcon}
+                  alt={'hide'}
+                  width={30}
+                  height={30}
+                  onClick={() => hideStory(index)}
+              />
+              <img
+                  src={likeIcon}
+                  alt={'Like'}
+                  width={30}
+                  height={30}
+                  onClick={() => voteStory(index)}
+              />
+            </div>
           </div>
           <div className={'story-card-right'}>
             <div className="story-points-circle">
@@ -21,7 +46,11 @@ export const StoryCard = (props) => {
             </div>
           </div>
         </div>
-        <hr className={{ padding: 0, margin: 0 }}/>
+        <hr className={{padding: 0, margin: 0}}/>
       </Col>
   );
 };
+
+const StoryCard = connect(null, {hideStory, voteStory})(StoryCardPre);
+
+export default StoryCard;

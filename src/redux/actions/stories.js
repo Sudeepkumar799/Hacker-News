@@ -1,20 +1,108 @@
 import axios from 'axios';
-import {CHANGE_STORY_DATA} from './types';
+import {
+  CHANGE_CURRENT_PAGE_STORY_DATA,
+  CHANGE_NEXT_PREV_PAGE_STORY_DATA,
+  CHANGE_STORY_DATA,
+  CHANGE_STORY_DATA_WITH_PAGE_NUMBER,
+  CHANGE_STORY_HIDE_STATUS,
+  CHANGE_STORY_VOTES,
+} from './types';
 
-export const getStoriesData = () => {
+export const getStoriesData = (type) => {
   return async (dispatch, getState) => {
-    axios.get('https://hn.algolia.com/api/v1/search?page=0').then(function(response) {
-          // handle success
-          const {hits} = response.data;
-          dispatch({
-            type: CHANGE_STORY_DATA,
-            payload: hits,
-          });
-        }).catch(function(error) {
-          // handle error
-          console.log(error);
-        }).finally(function() {
-          // always executed
+    const {pageNumber, storyData} = getState().stories;
+    const getPageNumber = type === undefined ?
+        0 :
+        type === 'next' ? pageNumber + 1 : pageNumber - 1;
+    if (storyData.hasOwnProperty(getPageNumber)) {
+      if (type === undefined) {
+        dispatch({
+          type: CHANGE_CURRENT_PAGE_STORY_DATA,
+          payload: storyData[getPageNumber],
         });
+      } else dispatch({
+        type: CHANGE_NEXT_PREV_PAGE_STORY_DATA,
+        payload: {
+          currentPageStoryData: storyData[getPageNumber],
+          pageNumber: getPageNumber,
+        },
+      });
+    } else {
+      axios.get(`https://hn.algolia.com/api/v1/search?page=${getPageNumber}`).
+          then(function(response) {
+            const {hits} = response.data;
+            const updatedHits = hits.map(data => {
+              data.isVisible = true;
+              return data;
+            });
+            let arr = storyData;
+            arr[getPageNumber] = updatedHits;
+            if (type === undefined) {
+              dispatch({
+                type: CHANGE_STORY_DATA,
+                payload: {
+                  storyData: arr,
+                  currentPageStoryData: updatedHits,
+                },
+              });
+            } else {
+              dispatch({
+                type: CHANGE_STORY_DATA_WITH_PAGE_NUMBER,
+                payload: {
+                  storyData: arr,
+                  currentPageStoryData: updatedHits,
+                  pageNumber: getPageNumber,
+                },
+              });
+            }
+
+          }).catch(function(error) {
+        console.log(error);
+        dispatch({
+          type: '',
+          payload: '',
+        });
+      });
+    }
+  };
+};
+
+export const hideStory = (index) => {
+  return async (dispatch, getState) => {
+    const {pageNumber, storyData, currentPageStoryData} = getState().stories;
+
+    let tempStoryData = {...storyData};
+    let tempCurrentPageStoryData = [...currentPageStoryData];
+
+    tempStoryData[pageNumber][index].isVisible = false;
+    tempCurrentPageStoryData[index].isVisible = false;
+
+    dispatch({
+      type: CHANGE_STORY_HIDE_STATUS,
+      payload: {
+        storyData: tempStoryData,
+        currentPageStoryData: tempCurrentPageStoryData,
+      },
+    });
+  };
+};
+
+export const voteStory = (index) => {
+  return async (dispatch, getState) => {
+    const {pageNumber, storyData, currentPageStoryData} = getState().stories;
+
+    let tempStoryData = {...storyData};
+    let tempCurrentPageStoryData = [...currentPageStoryData];
+
+    tempStoryData[pageNumber][index].points += 1;
+    tempCurrentPageStoryData[index].points += 1;
+
+    dispatch({
+      type: CHANGE_STORY_VOTES,
+      payload: {
+        storyData: tempStoryData,
+        currentPageStoryData: tempCurrentPageStoryData,
+      },
+    });
   };
 };
