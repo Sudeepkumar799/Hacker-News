@@ -1,0 +1,30 @@
+.post-detailed-section {
+    display: block;
+}
+
+.post-detailed-section .post-detailed-header {
+    display: block;
+    width: 100%;
+    background-color: #F45A16;
+    color: #ffffff;
+    padding: 20px 0;
+}
+
+.post-detailed-section .post-detailed-header p {
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.post-detailed-section .post-detailed-header span.w100 {
+    display: inline-block;
+    width: 70px;
+    font-weight: bold;
+}
+
+.post-detailed-body {
+    padding: 10px 0;
+}
+
+.post-detailed-circle {
+    margin: 50px auto 15px;
+}

@@ -24,9 +24,13 @@ class PostsPre extends React.Component {
     const {pageNumber, currentPageStoryData} = this.props;
     const buildStoryHml = currentPageStoryData.map((story, index) => {
       if (story.isVisible) {
-        return <StoryCard data={story} points={story.points} index={index}
-                          key={story.objectID}/>;
-      }
+        return <StoryCard
+            data={story}
+            points={story.points}
+            index={index}
+            key={story.objectID}
+        />;
+      } else return null;
     });
 
     return (

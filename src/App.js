@@ -4,7 +4,7 @@ import NavigationBar from './components/NavigationBar/NavigationBar';
 import Posts from './pages/posts/Posts';
 import PostDetailed from './pages/post_detailed/PostDetailed';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./App.css"
+import './App.css';
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
                 component={Posts}
             />
             <Route
-                path="/post=:postId"
+                path="/stories/id=:storyId"
                 component={PostDetailed}
             />
           </Switch>

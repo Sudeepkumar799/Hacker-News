@@ -26,6 +26,7 @@
 .story-card .story-title {
     font-size: 20px;
     font-weight: bold;
+    color: #000000;
 }
 
 .story-card .story-author {
@@ -41,16 +42,16 @@
     margin: 0;
 }
 
-.story-card .story-icons-block{
+.story-card .story-icons-block {
     display: inline;
     margin-top: 10px;
 }
 
-.story-card .story-icons-block > img:first-child{
+.story-card .story-icons-block > img:first-child {
     margin-top: 6px;
 }
 
-.story-card .story-icons-block > img:last-child{
+.story-card .story-icons-block > img:last-child {
     margin-left: 10px;
 }
 
