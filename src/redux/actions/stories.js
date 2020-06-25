@@ -11,9 +11,7 @@ import {
 export const getStoriesData = (type) => {
   return async (dispatch, getState) => {
     const {pageNumber, storyData} = getState().stories;
-    const getPageNumber = type === undefined ?
-        0 :
-        type === 'next' ? pageNumber + 1 : pageNumber - 1;
+    const getPageNumber = type === undefined ? 0 : type === 'next' ? pageNumber + 1 : pageNumber - 1;
     if (storyData.hasOwnProperty(getPageNumber)) {
       if (type === undefined) {
         dispatch({
@@ -55,7 +53,6 @@ export const getStoriesData = (type) => {
                 },
               });
             }
-
           }).catch(function(error) {
         console.log(error);
         dispatch({
@@ -69,19 +66,16 @@ export const getStoriesData = (type) => {
 
 export const hideStory = (index) => {
   return async (dispatch, getState) => {
-    const {pageNumber, storyData, currentPageStoryData} = getState().stories;
+    const {pageNumber, storyData} = getState().stories;
 
     let tempStoryData = {...storyData};
-    let tempCurrentPageStoryData = [...currentPageStoryData];
-
     tempStoryData[pageNumber][index].isVisible = false;
-    tempCurrentPageStoryData[index].isVisible = false;
 
     dispatch({
       type: CHANGE_STORY_HIDE_STATUS,
       payload: {
         storyData: tempStoryData,
-        currentPageStoryData: tempCurrentPageStoryData,
+        currentPageStoryData: tempStoryData[pageNumber],
       },
     });
   };
@@ -89,19 +83,16 @@ export const hideStory = (index) => {
 
 export const voteStory = (index) => {
   return async (dispatch, getState) => {
-    const {pageNumber, storyData, currentPageStoryData} = getState().stories;
+    const {pageNumber, storyData} = getState().stories;
 
     let tempStoryData = {...storyData};
-    let tempCurrentPageStoryData = [...currentPageStoryData];
-
     tempStoryData[pageNumber][index].points += 1;
-    tempCurrentPageStoryData[index].points += 1;
 
     dispatch({
       type: CHANGE_STORY_VOTES,
       payload: {
         storyData: tempStoryData,
-        currentPageStoryData: tempCurrentPageStoryData,
+        currentPageStoryData: tempStoryData[pageNumber],
       },
     });
   };
