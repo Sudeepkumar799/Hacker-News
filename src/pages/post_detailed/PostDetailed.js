@@ -1,12 +1,13 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
-import './PostDetailed.css';
 import {Comment} from '../../components/comment/Comment';
+import './PostDetailed.css';
 
 export default class PostDetailed extends React.Component {
 
@@ -48,6 +49,7 @@ export default class PostDetailed extends React.Component {
       />
       <p className="text-center">Loading...</p>
     </>;
+
     if (storyData === null) return <Alert variant={'danger'}>No data found!</Alert>;
 
     const {title, author, url, children} = storyData;
@@ -59,7 +61,8 @@ export default class PostDetailed extends React.Component {
             <Container>
               <Row>
                 <Col xs={12}>
-                  <h4>{title}</h4>
+                  <Link to="/" style={{ color: "#ffffff" }}>{"< Back"}</Link>
+                  <h4 style={{ marginTop: 10 }}>{title}</h4>
                   <br/>
                   <Row>
                     <Col xs={2}>
