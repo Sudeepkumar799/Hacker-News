@@ -11,8 +11,10 @@ const PostGraphPre = (props) => {
   let yAxisData = [];
 
   props.currentPageStoryData.forEach(story => {
-    xAxisData.push(story.objectID);
-    yAxisData.push(story.points);
+    if (story.title !== null && story.title !== '') {
+      xAxisData.push(story.objectID);
+      yAxisData.push(story.points);
+    }
   });
 
   const option = {

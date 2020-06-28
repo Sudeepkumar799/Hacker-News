@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   CHANGE_CURRENT_PAGE_STORY_DATA,
+  CHANGE_LOADING_STATUS,
   CHANGE_NEXT_PREV_PAGE_STORY_DATA,
   CHANGE_STORY_DATA,
   CHANGE_STORY_DATA_WITH_PAGE_NUMBER,
@@ -8,10 +9,18 @@ import {
   CHANGE_STORY_VOTES,
 } from './types';
 
+export const changeLoading = () => {
+  return {
+    type: CHANGE_LOADING_STATUS,
+    payload: true,
+  };
+};
+
 export const getStoriesData = (type) => {
   return async (dispatch, getState) => {
     const {pageNumber, storyData} = getState().stories;
-    const getPageNumber = type === undefined ? 0 : type === 'next' ? pageNumber + 1 : pageNumber - 1;
+    const getPageNumber = type === undefined ? pageNumber : type === 'next' ? pageNumber + 1 : pageNumber - 1;
+
     if (storyData.hasOwnProperty(getPageNumber)) {
       if (type === undefined) {
         dispatch({
@@ -56,8 +65,10 @@ export const getStoriesData = (type) => {
           }).catch(function(error) {
         console.log(error);
         dispatch({
-          type: '',
-          payload: '',
+          type: CHANGE_LOADING_STATUS,
+          payload: {
+            loading: false,
+          },
         });
       });
     }

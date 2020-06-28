@@ -7,12 +7,14 @@ import timeIcon from '../../assets/images/time.png';
 import './Comment.css';
 
 export const Comment = props => {
-  const {id, text, author, created_at, created_at_i} = props.data;
+  const {id, text, author, created_at_i} = props.data;
   const data = moment.unix(created_at_i).fromNow();
+
   return (
       <Row key={id} className="story-comment">
         <Col xs={6}>
-          <p><img src={userIcon} alt="Author" width={17} height={17}/> {author}</p>
+          <p><img src={userIcon} alt="Author" width={17} height={17}/> {author}
+          </p>
         </Col>
         <Col xs={6}>
           <p><img src={timeIcon} alt="Time" width={17} height={17}/> {data}</p>

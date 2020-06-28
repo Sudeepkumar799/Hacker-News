@@ -4,3 +4,4 @@ export const CHANGE_CURRENT_PAGE_STORY_DATA = "change_current_page_story_data";
 export const CHANGE_NEXT_PREV_PAGE_STORY_DATA = "change_next_prev_page_story_data";
 export const CHANGE_STORY_HIDE_STATUS = "change_story_hide_status";
 export const CHANGE_STORY_VOTES = "change_story_votes";
+export const CHANGE_LOADING_STATUS = "change_loading_status";
